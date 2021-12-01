@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets  # , mixins
+from rest_framework import generics, viewsets, permissions  # , mixins
 from rest_framework.generics import get_object_or_404
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -41,6 +41,7 @@ class AvaliacaoAPIView(generics.RetrieveUpdateDestroyAPIView):
 #v2
 
 class CursoViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.DjangoModelPermissions,)  # sobrescreve as permissões para passar a pegar as dos grupos do model admin
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
 
