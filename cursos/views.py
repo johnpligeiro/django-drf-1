@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from .models import Curso, Avaliacao
 from .serializers import CursoSerializer, AvaliacaoSerializer
+from .permissions import IsSuperUser
 
 #v1
 class CursosAPIView(generics.ListCreateAPIView):
@@ -41,7 +42,10 @@ class AvaliacaoAPIView(generics.RetrieveUpdateDestroyAPIView):
 #v2
 
 class CursoViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.DjangoModelPermissions,)  # sobrescreve as permissões para passar a pegar as dos grupos do model admin
+    permission_classes = (
+        IsSuperUser,
+        permissions.DjangoModelPermissions,
+    )  # add permission personalizada e sobrescreve as permissões para passar a pegar as dos grupos do model admin
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
 
