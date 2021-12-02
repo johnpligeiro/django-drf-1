@@ -1,10 +1,16 @@
-from rest_framework import generics, viewsets, permissions  # , mixins
+from rest_framework import generics
 from rest_framework.generics import get_object_or_404
+
+from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+# from rest_framework import mixins
+
+from rest_framework import permissions
+
+from .serializers import CursoSerializer, AvaliacaoSerializer
 
 from .models import Curso, Avaliacao
-from .serializers import CursoSerializer, AvaliacaoSerializer
 from .permissions import IsSuperUser
 
 #v1
@@ -45,13 +51,13 @@ class CursoViewSet(viewsets.ModelViewSet):
     permission_classes = (
         IsSuperUser,
         permissions.DjangoModelPermissions,
-    )  # add permission personalizada e sobrescreve as permissões para passar a pegar as dos grupos do model admin
+    )
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
 
     @action(detail=True, methods=['get'])
     def avaliacoes(self, request, pk=None):
-        self.pagination_class.page_size = 1
+        self.pagination_class.page_size = 2
         avaliacoes = Avaliacao.objects.filter(curso_id=pk)
         page = self.paginate_queryset(avaliacoes)
 

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Base(models.Model):
     criacao = models.DateTimeField(auto_now_add=True)
     atualizacao = models.DateTimeField(auto_now=True)
@@ -7,6 +8,7 @@ class Base(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Curso(Base):
     titulo = models.CharField(max_length=255)
@@ -19,6 +21,7 @@ class Curso(Base):
 
     def __str__(self):
         return self.titulo
+
 
 class Avaliacao(Base):
     curso = models.ForeignKey(Curso, related_name='avaliacoes', on_delete=models.CASCADE)
